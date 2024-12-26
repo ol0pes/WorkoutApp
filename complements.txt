@@ -1,0 +1,14 @@
+##data = request.json
+    workout_type = data.get('workout_type')
+    duration = data.get('duration')
+
+    if workout_type not in workouts:
+        return jsonify({"error": "Invalid workout type. Choose cardio, strength, or flexibility."}), 400
+
+    try:
+        duration = int(duration)
+        exercises = workouts[workout_type]
+        workout_plan = random.sample(exercises, min(len(exercises), duration))
+        return jsonify({"workout_plan": workout_plan})
+    except ValueError:
+        return jsonify({"error": "Invalid duration. Please provide a number."}), 400
