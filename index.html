@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Workout Generator</title>
+</head>
+<body>
+  <h1>Workout Generator</h1>
+  <label for="workout-type">Workout Type:</label>
+  <select id="workout-type">
+    <option value="cardio">Cardio</option>
+    <option value="strength">Strength</option>
+    <option value="flexibility">Flexibility</option>
+  </select>
+
+  <label for="duration">Number of Exercises:</label>
+  <input type="number" id="duration" min="1">
+
+  <button id="generate-btn">Generate Workout</button>
+
+  <h2>Workout Plan:</h2>
+  <ul id="workout-plan"></ul>
+
+  <script>
+    document.getElementById('generate-btn').addEventListener('click', async () => {
+      const workoutType = document.getElementById('workout-type').value;
+      const duration = document.getElementById('duration').value;
+
+      if (!duration || duration < 1) {
+        alert('Please enter a valid number of exercises.');
+        return;
+      }
+
+      try {
+        const response = await fetch('http://127.0.0.1:5000/generate_workout', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            workout_type: workoutType,
+            duration: parseInt(duration),
+          }),
+        });
+
+        if (!response.ok) {
+          const errorData = await response.json();
+          alert(errorData.error);
+          return;
+        }
+
+        const data = await response.json();
+        const workoutPlan = data.workout_plan;
+
+        const workoutList = document.getElementById('workout-plan');
+        workoutList.innerHTML = ''; // Clear previous results
+        workoutPlan.forEach(exercise => {
+          const listItem = document.createElement('li');
+          listItem.textContent = exercise;
+          workoutList.appendChild(listItem);
+        });
+      } catch (error) {
+        console.error('Error fetching workout:', error);
+        alert('An error occurred while generating the workout.');
+      }
+    });
+  </script>
+</body>
+</html>
