@@ -14,8 +14,6 @@ class exercises_db: {
     "flexibility": ["Yoga", "Hamstring Stretch", "Hip Flexor Stretch", "Cobra Stretch", "Quad Stretch"]
 }
 
-
-
 @app.route("/workout.generator", methods=["POST"])
 def workout_generator():
     data = request.get.json()
