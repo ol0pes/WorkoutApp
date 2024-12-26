@@ -13,11 +13,7 @@ workouts = {
 }
 
 
-@app.route('/generate_workout', methods=['POST'])
-
-def home():
-    return "Workout generator app is working"
-
+@app.route("/Generate workout")
 def generate_workout():
     data = request.json
     workout_type = data.get('workout_type')
