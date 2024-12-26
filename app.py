@@ -5,6 +5,8 @@ import random
 app = Flask(__name__)
 
 @app.route("/")  
+def home():
+    return render_template("index.html")
 
 class exercises_db: {
     "cardio": ["Running", "Cycling", "Jumping Jacks", "Burpees", "Mountain Climbers"],
@@ -12,8 +14,7 @@ class exercises_db: {
     "flexibility": ["Yoga", "Hamstring Stretch", "Hip Flexor Stretch", "Cobra Stretch", "Quad Stretch"]
 }
 
-def home():
-    return render_template("index.html")
+
 
 @app.route("/workout.generator", methods=["POST"])
 def workout_generator():
