@@ -1,5 +1,7 @@
 from flask import Flask, request, jsonify
 import random
+import os
+
 
 app = Flask(__name__)
 
@@ -10,7 +12,12 @@ workouts = {
     "flexibility": ["Yoga", "Stretching", "Pilates", "Tai Chi", "Foam Rolling"]
 }
 
+
 @app.route('/generate_workout', methods=['POST'])
+
+def home():
+    return "Workout generator app is working"
+
 def generate_workout():
     data = request.json
     workout_type = data.get('workout_type')
@@ -28,4 +35,7 @@ def generate_workout():
         return jsonify({"error": "Invalid duration. Please provide a number."}), 400
 
 if __name__ == '__main__':
+    # Get the PORT from the environment or default to 5000
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port)
     app.run(debug=True)
