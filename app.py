@@ -8,17 +8,18 @@ app = Flask(__name__)
 def home():
     return render_template("index.html")
 
-class exercises_db: {
+exercises_db= {
     "cardio": ["Running", "Cycling", "Jumping Jacks", "Burpees", "Mountain Climbers"],
     "strength": ["Push-ups", "Squats", "Lunges", "Plank", "Deadlifts"],
-    "flexibility": ["Yoga", "Hamstring Stretch", "Hip Flexor Stretch", "Cobra Stretch", "Quad Stretch"]
+    "flexibility": ["Yoga", "Hamstring Stretch", "Hip Flexor Stretch", "Cobra Stretch", "Quad Stretch"],
 }
 
 @app.route("/workout.generator", methods=["POST"])
 def workout_generator():
-    data = request.get.json()
+    data = request.get_json()
     workout_type = data.get("workout_type")
     duration = data.get("duration")
+    print (data, workout_type, duration)
 
     if workout_type not in exercises_db:
         return jsonify({"error": "Invalid workout type. Choose cardio, strength, or flexibility."}), 400
